@@ -30,7 +30,9 @@ document.addEventListener("contextmenu", (event) => {
  * The user pressed a key on the keyboard 
  */
 function keypress(event) {
-
+if (event.keyCode == KEYS.SPACE){
+  HERO.jump();
+}
 }
 
 
@@ -60,4 +62,6 @@ function update() {
 }
 
 // Start the animation
+
+
 update()

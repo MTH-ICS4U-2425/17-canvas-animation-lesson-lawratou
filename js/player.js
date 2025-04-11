@@ -10,6 +10,9 @@
 
 import { CTX, CANVAS, GRAVITY, FLOOR } from "./globals.js"
 
+let Dino = new Image();
+Dino.src = "../images/dino_large.png"
+
 export default class Player {
   constructor(x, y, width, height) {
     this.width = width;
@@ -25,37 +28,50 @@ export default class Player {
     };
   }
 
-  get right (){ return this.position.x + this.width }
-  get bottom (){ return this.position.y + this.width }
+  get right (){return this.position.x + this.width }
+  get bottom (){return this.position.y + this.width }
   get top (){ return this.position.y }
   get left(){ return this.position.x }
+  set bottom (location){this.position.y = location - this.height}
+  set right(location){this.position.x = location - this.width}
+  set top (location){this.position.y = location}
+  set left(location){this.position.x = location}
   /**
    * Main function to update location, velocity, and image
    */
   update() {
     
-    this.velocity.y += GRAVITY
+    if (this.bottom < FLOOR){
+      this.velocity.y += GRAVITY}
 
     if (this.bottom > FLOOR){
       this.velocity.y = 0 
-      this.position.y = FLOOR - this.height
+      this.bottom = FLOOR
     } 
 
-    this.position.x += this.velocity.x + GRAVITY
-    this.position.y += this.velocity.y + GRAVITY
+
+    if (this.bottom + this.velocity.y >= FLOOR){
+      this.velocity.y = 0
+      this.bottom = FLOOR
+    } else{
+      this.velocity.y += GRAVITY
+    }
+    this.position.x += this.velocity.x 
+    this.position.y += this.velocity.y 
     this.draw();
   }
 
   /**
    * Draw the player on the canvas
    */
-  draw() {
-    CTX.fillStyle = "yellow";
-    CTX.fillRect(this.position.x, this.position.y, this.width, this.height);
+  draw(color) {
+    CTX.drawImage(Dino, 1677, 2, 88, this.position.x, this.position.y - 10, 58.667, 62.667)
   }
 
   jump(){
-    this.position.y -= 5;
-    this.velocity.y = -20; 
+    if (this.bottom >= FLOOR){
+    this.bottom = FLOOR
+    this.velocity.y = -28
+    }
   }
 }

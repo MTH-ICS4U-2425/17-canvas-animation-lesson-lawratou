@@ -13,7 +13,20 @@ import Player from "./player.js";
 import { CANVAS, CTX, MS_PER_FRAME, KEYS } from "./globals.js";
 
 // Globals
-const HERO = new Player(20, 50, 48, 48);
+const HERO = new Player(120, 50, 48, 48);
+
+let ground1 = new Image()
+let ground2 = new Image()
+
+ground1.src = "../images/dino_large.png"
+ground2.src = "../images/dino_large.png"
+
+ground1.x_pos = 0
+ground2.x_pos = 2300
+
+
+
+
 
 let frame_time = performance.now()
 
@@ -30,7 +43,8 @@ document.addEventListener("contextmenu", (event) => {
  * The user pressed a key on the keyboard 
  */
 function keypress(event) {
-if (event.keyCode == KEYS.SPACE){
+if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode)){
+  console.log(HERO.bottom, HERO.velocity.y)
   HERO.jump();
 }
 }
@@ -56,7 +70,28 @@ function update() {
   // Clear the canvas
   CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
   
+//Draw Ground 
+
+ground1.x_pos -= 5
+ground2.x_pos -= 5
+
+if (ground1.x_pos <= -2300) {
+  ground1.x_pos = ground2.x_pos + 2300
+}
+
+if (ground2.x_pos <= -2300) {
+  ground2.x_pos = ground1.x_pos + 2300
+}
+
+CTX.drawImage(ground1, 0, 102, 2300, 28, ground1.x_pos, 300, 2300, 28)
+CTX.drawImage(ground2, 0, 102, 2300, 28,  ground2.x_pos, 300, 2300, 28)
+
+
   // Draw our hero
+  
+
+
+
   HERO.update();
   
 }

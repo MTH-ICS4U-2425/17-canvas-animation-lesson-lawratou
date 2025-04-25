@@ -13,6 +13,9 @@ import { CTX, CANVAS, GRAVITY, FLOOR } from "./globals.js"
 let Dino = new Image();
 Dino.src = "../images/dino_large.png"
 
+let i = 0
+
+
 export default class Player {
   constructor(x, y, width, height) {
     this.width = width;
@@ -45,13 +48,13 @@ export default class Player {
       this.velocity.y += GRAVITY}
 
     if (this.bottom > FLOOR){
-      this.velocity.y = 0 
+      this.velocity.y = 5
       this.bottom = FLOOR
     } 
 
 
     if (this.bottom + this.velocity.y >= FLOOR){
-      this.velocity.y = 0
+      this.velocity.y = 5
       this.bottom = FLOOR
     } else{
       this.velocity.y += GRAVITY
@@ -64,14 +67,31 @@ export default class Player {
   /**
    * Draw the player on the canvas
    */
-  draw(color) {
-    CTX.drawImage(Dino, 1677, 2, 88, this.position.x, this.position.y - 10, 58.667, 62.667)
+  
+  draw() {
+    if (this.bottom == FLOOR) {
+      
+      if (i >= 0 && i < 8) {
+        CTX.drawImage(Dino, 1678, 2, 88, 94, this.position.x, this.position.y - 35, 76, 82);
+      } else if (i >= 8 && i < 16) {
+        CTX.drawImage(Dino, 1766, 2, 88, 94, this.position.x, this.position.y - 35, 76, 82);
+      } else if (i >= 16 && i < 24) {
+        CTX.drawImage(Dino, 1854, 2, 88, 94, this.position.x, this.position.y - 35, 76, 82);
+      }
+      i++; 
+      if (i >= 24) i = 0
+    } else {
+      CTX.drawImage(Dino, 1678, 2, 88, 94, this.position.x, this.position.y - 35, 76, 82);
+    }
   }
 
   jump(){
     if (this.bottom >= FLOOR){
     this.bottom = FLOOR
-    this.velocity.y = -28
+    this.velocity.y = -30
     }
   }
+
+
 }
+

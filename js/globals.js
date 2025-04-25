@@ -44,3 +44,5 @@ export function $(id) { return document.getElementById(id); }
 
 // Export all the constants by default
 export default { CANVAS, CTX, FPS, MS_PER_FRAME, GRAVITY, FLOOR, KEYS, $ }
+
+
